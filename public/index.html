@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>File Uploader</title>
+    </head>
+    <body>
+        <div id="uploader">
+            <h3>File Uploader</h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <label for="uploaderLabel">File Upload</label>
+                <label for="uploadedFile" id="uploaderLabel">New File Chooser</label>
+                <input type="file" id="uploadedFile" accept="application/json" onchange="uploadFile()">
+            </form>
+        </div>
+        <div id="fileList">
+            <h3 id="fileListHeading">Existing File List</h3>
+            <table>
+                <tbody id="fileBody">
+
+                </tbody>
+                <ul id="filesUL"></ul>
+            </table>
+        </div>
+
+        <script>
+            
+            const uploadFile = () => {
+                const URL = "http://localhost:4000/api/v1/upload";
+                const file = document.getElementById('uploadedFile').files;
+                const formData = new FormData();
+                formData.append('uploadedFile', file.item(0));
+
+                fetch(URL, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if(res.status != 200) {
+                        const markup = `<p id="error">${res.message}</p>`;
+                            document.getElementById('uploadForm')
+                                .insertAdjacentHTML('afterend', markup);
+                    } else location.reload(true);
+                });
+            }
+            const form = document.getElementById("uploadForm");
+            form.addEventListener('submit', (e) => {
+                e.preventDefault()
+                sendFile();
+            });
+
+
+            const fetchFilesList = () => {
+                const URL = "http://localhost:4000/api/v1/files";
+
+                fetch(URL)
+                .then(res => res.json())
+                .then(res => {
+                    if(!res.data.length) {
+                        const markup = `There's no file to display`;
+                        document.getElementById('fileListHeading')
+                            .insertAdjacentHTML('afterend', markup);
+                    } else {
+                        for(let file of res.data) {
+                            const markup = `<tr><td id="fileRow">${file}</td></tr>`;
+                            document.getElementById('fileBody')
+                                .insertAdjacentHTML('beforeend', markup);
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            }
+            window.onload = fetchFilesList();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "shared-file-uploader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ashutosh-golwalkar/shared-file-uploader.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "EJS"
+  ],
+  "author": "Ashutosh Golwalkar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashutosh-golwalkar/shared-file-uploader/issues"
+  },
+  "homepage": "https://github.com/ashutosh-golwalkar/shared-file-uploader#readme"
+}
