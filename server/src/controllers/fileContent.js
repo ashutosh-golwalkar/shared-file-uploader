@@ -7,9 +7,8 @@ module.exports = (app, middleware) => {
         (req, res) => {
 
             try {
-                console.log(req.query);
+                logger.info("/v1/file-content - Controller - API called");
                 const response = fetchFileContent(req.query);
-                console.log(response)
                 logger.info(`/v1/file-content - Controller - response sent successfully - ${response}`)
                 return res.status(200).json({
                     status: 200,

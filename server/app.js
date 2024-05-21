@@ -17,33 +17,11 @@ app.use(cors());
 //Adding Controller Routes
 controllers(app, middleware);
 
-//Rendering CSS
-app.get('/style.css', function(req, res) {
-    res.sendFile(path.join(__dirname, 'public', "style.css"));
-});
-
-app.get('/home', (req, res) => {
-    res.render("index.ejs", {
-        rootIP: process.env.ROOT_IPV4,
-        port: process.env.PORT,
-        version: 'V2'
-    });
-});
-
-//Rendering HTML
-// app.get("/home", (req, res) => {
-//     logger.info(`App - Rendering HTML`)
-//     const options = {
-//         root: path.join(__dirname),
-//         rootIP: process.env.ROOT_IPV4
-//     }
-//     res.sendFile(path.join('public', 'index.html'), options);
-// });
-
-
 app.get('/', (req,res) => {
-    logger.info(`App - Redirecting from root to /home`)
-    res.redirect('/home');
+    return res.status(405).json({
+        status: 405,
+        message: "Not Allowed"
+    });
 });
 
 

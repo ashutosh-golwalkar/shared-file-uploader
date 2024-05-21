@@ -23,18 +23,37 @@ table {
   border: 1px solid black;
 }
 
+.tableContent:hover {
+  background-color: #8080803b;
+  cursor: context-menu;
+}
+
+.selectedRow {
+  background-color: #4bf5f596;
+}
+
+.newUpload {
+  font-size: 10px;
+  position: absolute;
+  top: -8px;
+  left: -15px;
+  color: red;
+  text-shadow: 1px 1px yellow;
+}
+
 .uploaderLabel {
   border: 1px solid black;
   padding: 5px 10px 5px 10px;
+  margin-left: 10px;
 }
 
 .uploaderLabel:hover {
   background-color: #8080803b;
 }
-/* 
+
 input[type="file"] {
   display: none;
-} */
+}
 
 .uploader {
   padding: 15px;
@@ -55,8 +74,8 @@ table {
 }
 
 .fileRow {
-  padding: 5px 15px 5px 15px;
-  border: 1px solid black;
+  position: relative;
+  max-width: 40vw;
 }
 
 .custom-file-upload {
@@ -72,4 +91,17 @@ cursor: pointer;
 
 .fileContentDisplay {
   overflow: auto;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.fileContentViewer {
+  padding: 15px;
+  max-width: 50vw;
+}
+
+.newRow {
+  background: yellow;
 }

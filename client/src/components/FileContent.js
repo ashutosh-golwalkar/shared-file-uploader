@@ -6,12 +6,11 @@ function FileContent({ fileName }) {
     const [fileContent, setFileContent] = useState("");
     useEffect(() => getFileContent(), [fileName]);
 
-    console.log("FileName - ", fileName)
     const getFileContent = () => {
-        console.log("File content re-rendered", fileName)
         if(!fileName) setFileContent("");
         else {
-            const URL = `http://localhost:4000/api/v1/file-content?name=${fileName}`;
+            const URL = `http://${process.env.REACT_APP_SERVER_IP}:${
+        process.env.REACT_APP_SERVER_PORT}/api/v1/file-content?name=${fileName}`;
             axios.get(URL)
             .then(response => {
                 setFileContent(JSON.stringify(response.data.data, undefined, 4));
@@ -25,8 +24,8 @@ function FileContent({ fileName }) {
 
   return (
     <div className='fileContentViewer'>
-        <h3>File Content</h3>
-        <textarea className="fileContentDisplay" value={fileContent} cols="60" rows="20" />
+        <h4>File Content : {fileName}</h4>
+        <textarea className="fileContentDisplay" value={fileContent} cols="80" rows="20" readOnly/>
     </div>
   )
 }
