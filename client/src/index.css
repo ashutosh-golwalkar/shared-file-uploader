@@ -11,3 +11,61 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Custom Styles below */
+
+table {
+  border-collapse: collapse;
+}
+
+.tableContent {
+  padding: 5px 15px 5px 15px;
+  border: 1px solid black;
+}
+
+.uploaderLabel {
+  border: 1px solid black;
+  padding: 5px 10px 5px 10px;
+}
+
+.uploaderLabel:hover {
+  background-color: #8080803b;
+}
+/* 
+input[type="file"] {
+  display: none;
+} */
+
+.uploader {
+  padding: 15px;
+  margin-bottom: 20px;
+  min-height: auto;
+}
+
+.fileList {
+  padding: 15px;
+}
+
+.error {
+  color: red;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.fileRow {
+  padding: 5px 15px 5px 15px;
+  border: 1px solid black;
+}
+
+.custom-file-upload {
+border: 1px solid #ccc;
+display: inline-block;
+padding: 6px 12px;
+cursor: pointer;
+}
+
+.highlightNew {
+  background-color: rgb(146 222 247);
+}
