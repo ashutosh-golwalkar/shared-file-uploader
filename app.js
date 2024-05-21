@@ -2,7 +2,7 @@ const express = require("express");
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const cors = require('cors');
-const { uploadController, listController } = require("./src/controllers");
+const controllers = require('./src/controllers');
 const middleware = require('./src/middlewares');
 const logger = require("./src/utils/logger");
 require('dotenv').config();
@@ -15,8 +15,7 @@ app.use(fileUpload());
 app.use(cors());
 
 //Adding Controller Routes
-uploadController(app, middleware);
-listController(app);
+controllers(app, middleware);
 
 //Rendering CSS
 app.get('/style.css', function(req, res) {
