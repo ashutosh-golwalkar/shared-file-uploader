@@ -1,12 +1,12 @@
 const uploader = require('../services/uploader');
+const multiUpload = require('../services/multiUploader');
 const logger = require('../utils/logger');
 
-module.exports = (app, { verifyFileType }) => {
+module.exports = (app, { verifyFileType, fileSizeLimiter }) => {
 
     app.post('/api/v1/upload',
         verifyFileType,
         (req, res) => {
-
         logger.info(`/v1/upload - Controller - API called`);
         try {
             uploader(req);
@@ -23,4 +23,18 @@ module.exports = (app, { verifyFileType }) => {
             });
         }
     });
+
+    app.post('/api/v2/multi-upload', 
+        verifyFileType,
+        fileSizeLimiter,
+        (req, res) => {
+            logger.info(`/v2/multi-upload - Controller - API called`);
+            multiUpload(req);
+            logger.info(`/v2/multi-upload - Controller - API response with a Success`);
+            return res.status(200).json({
+                status: 200,
+                message: "Files successfully uploaded"
+            });
+        }
+    )
 }

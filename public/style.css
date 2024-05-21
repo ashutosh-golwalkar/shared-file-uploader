@@ -39,3 +39,7 @@ input[type="file"] {
   padding: 6px 12px;
   cursor: pointer;
 }
+
+.highlightNew {
+    background-color: rgb(146 222 247);
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>File Uploader</title>
+    </head>
+    <body>
+        <div id="envVariable" data-rootip=<%= rootIP %> data-port=<%= port %> data-version=<%= version %>></div>
+        <div id="uploader">
+            <h3>File Uploader</h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <label for="uploaderLabel">File Upload</label>
+                <label for="uploadedFile" id="uploaderLabel">New File Chooser</label>
+                <input type="file" id="uploadedFile" accept="application/json" multiple onchange="uploadMultipleFiles()">
+            </form>
+        </div>
+        <div id="fileList">
+            <h3 id="fileListHeading">Existing File List</h3>
+            <table>
+                <tbody id="fileBody">
+                </tbody>
+                <ul id="filesUL"></ul>
+            </table>
+        </div>
+        <div>
+            <textarea id="fileContentDisplay" value="" cols="30" rows="10" style="overflow: auto;">
+            </textarea>
+        </div>
+        <script>
+            const ROOT_IP = document.getElementById('envVariable').dataset.rootip;
+            const PORT = document.getElementById('envVariable').dataset.port;
+            const ROOT_URL = `http://${ROOT_IP}:${PORT}/api`;
+            const VERSION = document.getElementById('envVariable').dataset.version;
+            const contentToDisplay = "This content has to be displayed in text area"
+
+            const uploadMultipleFiles = () => {
+                const URL = `${ROOT_URL}/v2/multi-upload`;
+                const files = document.getElementById('uploadedFile').files;
+                const formData = new FormData();
+
+                Object.keys(files).forEach(key => {
+                    formData.append(files.item(key).name, files.item(key));
+                });
+
+                console.log(formData)
+                fetch(URL, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if(res.status != 200) {
+                        const markup = `<p id="error">${res.message}</p>`;
+                            document.getElementById('uploadForm')
+                                .insertAdjacentHTML('afterend', markup);
+                    }
+                    else location.reload(true);
+                });
+            }
+
+            // const uploadFile = () => {
+            //     const URL = `http://${ROOT_IP}:${PORT}/api/v1/upload`;
+            //     const file = document.getElementById('uploadedFile').files;
+            //     const formData = new FormData();
+            //     formData.append('uploadedFile', file.item(0));
+
+            //     fetch(URL, {
+            //         method: 'POST',
+            //         body: formData
+            //     })
+            //     .then(res => res.json())
+            //     .then(res => {
+            //         if(res.status != 200) {
+            //             const markup = `<p id="error">${res.message}</p>`;
+            //                 document.getElementById('uploadForm')
+            //                     .insertAdjacentHTML('afterend', markup);
+            //         } else location.reload(true);
+            //     });
+            // }
+            // const form = document.getElementById("uploadForm");
+            // form.addEventListener('submit', (e) => {
+            //     e.preventDefault()
+            //     sendFile();
+            // });
+
+            const fetchFileContent = (fileName) => {
+                const URL = `${ROOT_URL}/v1/file-content?name=${fileName}`;
+                fetch(URL)
+                .then(res => res.json())
+                .then(res => {
+                    document.getElementById('fileContentDisplay').value = JSON.stringify(res.data, undefined, 4);
+                });
+            }
+
+            const fetchFilesList = () => {
+                const URL = `${ROOT_URL}/v1/files`;
+                fetch(URL)
+                .then(res => res.json())
+                .then(res => {
+                    if(!res.data.length) {
+                        const markup = `There's no file to display`;
+                        document.getElementById('fileListHeading')
+                            .insertAdjacentHTML('afterend', markup);
+                    } else {
+                        for(let file of res.data) {
+                            let className = "";
+                            if(file.time%2 === 0) {
+                                className = "highlightNew";
+                            }
+                            const markup = `<tr><td id="fileRow" class=${className}>${file.name}</td></tr>`;
+                            document.getElementById('fileBody')
+                                .insertAdjacentHTML('beforeend', markup);
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            }
+            window.onload = fetchFilesList();
+            window.onload = fetchFileContent("NotificationAPI-sample-payload.json")
+        </script>
+    </body>
+</html>
