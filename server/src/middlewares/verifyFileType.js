@@ -1,6 +1,5 @@
 const verifyFileType = (req, res, next) => {
   const acceptedFileTypes = process.env.ACCEPTED_FILE_TYPE.split(",");
-  console.log(req.files);
   const files = req.files;
   if (!files)
     return res.status(400).json({

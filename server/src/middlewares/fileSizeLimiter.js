@@ -6,7 +6,6 @@ const fileSizeLimiter = (req, res, next) => {
     const overLimitFiles = [];
 
     for(let key in files) {
-        console.log('>>>>>>>>>>>>>>>>>>>>', key, files[key]);
         if(files[key].size > FILE_SIZE_LIMIT) {
             overLimitFiles.push(files[key].name);
         }

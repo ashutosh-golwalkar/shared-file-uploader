@@ -28,5 +28,13 @@
   "bugs": {
     "url": "https://github.com/ashutosh-golwalkar/shared-file-uploader/issues"
   },
-  "homepage": "https://github.com/ashutosh-golwalkar/shared-file-uploader#readme"
+  "homepage": "https://github.com/ashutosh-golwalkar/shared-file-uploader#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.0",
+    "winston": "^3.13.0"
+  }
 }

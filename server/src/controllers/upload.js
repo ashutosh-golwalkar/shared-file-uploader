@@ -24,17 +24,25 @@ module.exports = (app, { verifyFileType, fileSizeLimiter }) => {
         }
     });
 
-    app.post('/api/v2/multi-upload', 
+    app.post('/api/v2/upload', 
         verifyFileType,
         fileSizeLimiter,
         (req, res) => {
-            logger.info(`/v2/multi-upload - Controller - API called`);
-            multiUpload(req);
-            logger.info(`/v2/multi-upload - Controller - API response with a Success`);
-            return res.status(200).json({
-                status: 200,
-                message: "Files successfully uploaded"
-            });
+            logger.info(`/v2/upload - Controller - API called`);
+            try {
+                multiUpload(req);
+                logger.info(`/v2/upload - Controller - API response with a Success`);
+                return res.status(200).json({
+                    status: 200,
+                    message: "Files successfully uploaded"
+                });
+            } catch (error) {
+                logger.error(`/v2/upload - Controller - API execution failed - ${error}`);
+                return res.status(500).json({
+                    status: 500,
+                    message: "Something went wrong, Please try again later"
+                });
+            }
         }
     )
 }
