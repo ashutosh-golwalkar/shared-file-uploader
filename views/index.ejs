@@ -24,13 +24,19 @@
                 <ul id="filesUL"></ul>
             </table>
         </div>
+        <div>
+            <textarea id="fileContentDisplay" value="" cols="30" rows="10" style="overflow: auto;">
+            </textarea>
+        </div>
         <script>
             const ROOT_IP = document.getElementById('envVariable').dataset.rootip;
             const PORT = document.getElementById('envVariable').dataset.port;
+            const ROOT_URL = `http://${ROOT_IP}:${PORT}/api`;
             const VERSION = document.getElementById('envVariable').dataset.version;
-            
+            const contentToDisplay = "This content has to be displayed in text area"
+
             const uploadMultipleFiles = () => {
-                const URL = `http://${ROOT_IP}:${PORT}/api/v2/multi-upload`;
+                const URL = `${ROOT_URL}/v2/multi-upload`;
                 const files = document.getElementById('uploadedFile').files;
                 const formData = new FormData();
 
@@ -54,34 +60,42 @@
                 });
             }
 
-            const uploadFile = () => {
-                const URL = `http://${ROOT_IP}:${PORT}/api/v1/upload`;
-                const file = document.getElementById('uploadedFile').files;
-                const formData = new FormData();
-                formData.append('uploadedFile', file.item(0));
+            // const uploadFile = () => {
+            //     const URL = `http://${ROOT_IP}:${PORT}/api/v1/upload`;
+            //     const file = document.getElementById('uploadedFile').files;
+            //     const formData = new FormData();
+            //     formData.append('uploadedFile', file.item(0));
 
-                fetch(URL, {
-                    method: 'POST',
-                    body: formData
-                })
+            //     fetch(URL, {
+            //         method: 'POST',
+            //         body: formData
+            //     })
+            //     .then(res => res.json())
+            //     .then(res => {
+            //         if(res.status != 200) {
+            //             const markup = `<p id="error">${res.message}</p>`;
+            //                 document.getElementById('uploadForm')
+            //                     .insertAdjacentHTML('afterend', markup);
+            //         } else location.reload(true);
+            //     });
+            // }
+            // const form = document.getElementById("uploadForm");
+            // form.addEventListener('submit', (e) => {
+            //     e.preventDefault()
+            //     sendFile();
+            // });
+
+            const fetchFileContent = (fileName) => {
+                const URL = `${ROOT_URL}/v1/file-content?name=${fileName}`;
+                fetch(URL)
                 .then(res => res.json())
                 .then(res => {
-                    if(res.status != 200) {
-                        const markup = `<p id="error">${res.message}</p>`;
-                            document.getElementById('uploadForm')
-                                .insertAdjacentHTML('afterend', markup);
-                    } else location.reload(true);
+                    document.getElementById('fileContentDisplay').value = JSON.stringify(res.data, undefined, 4);
                 });
             }
-            const form = document.getElementById("uploadForm");
-            form.addEventListener('submit', (e) => {
-                e.preventDefault()
-                sendFile();
-            });
-
 
             const fetchFilesList = () => {
-                const URL = `http://${ROOT_IP}:${PORT}/api/v1/files`;
+                const URL = `${ROOT_URL}/v1/files`;
                 fetch(URL)
                 .then(res => res.json())
                 .then(res => {
@@ -91,7 +105,11 @@
                             .insertAdjacentHTML('afterend', markup);
                     } else {
                         for(let file of res.data) {
-                            const markup = `<tr><td id="fileRow">${file}</td></tr>`;
+                            let className = "";
+                            if(file.time%2 === 0) {
+                                className = "highlightNew";
+                            }
+                            const markup = `<tr><td id="fileRow" class=${className}>${file.name}</td></tr>`;
                             document.getElementById('fileBody')
                                 .insertAdjacentHTML('beforeend', markup);
                         }
@@ -102,6 +120,7 @@
                 });
             }
             window.onload = fetchFilesList();
+            window.onload = fetchFileContent("NotificationAPI-sample-payload.json")
         </script>
     </body>
 </html>
