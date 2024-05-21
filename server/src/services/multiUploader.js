@@ -15,16 +15,16 @@ module.exports = (request) => {
         const fileName = handleDuplicateFiles(uploadedFiles, files[key].name);
         const filePath = path.join(rootDir, fileName);
         
-        logger.info(`/v2/multi-upload - Service - Uploading file with settings - Filename - ${
+        logger.info(`/v2/upload - Service - Uploading file with settings - Filename - ${
             fileName}, filePath - ${filePath}`);
         files[key].mv(filePath, (error) => {
             if(error) {
-                logger.error(`/v2/multi-upload - Service - Error Uploading file ${fileName} - ${error}`);
+                logger.error(`/v2/upload - Service - Error Uploading file ${fileName} - ${error}`);
                 throw new Error(error);
             }
         })
     });
 
-    logger.info(`/v2/multi-upload - Service - Files Uploaded successfully`);
+    logger.info(`/v2/upload - Service - Files Uploaded successfully`);
     return;
 }

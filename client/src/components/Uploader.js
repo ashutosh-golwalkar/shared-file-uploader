@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 
 function Uploader() {
 
-    const [ files, setFiles ] = useState(null);
-
     const uploadMultipleFiles = (files) => {
         const URL = `http://localhost:4000/api/v2/upload`;
         const formData = new FormData();

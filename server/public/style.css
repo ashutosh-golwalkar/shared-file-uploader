@@ -8,13 +8,13 @@
     padding: 15px;
 }
 
-#uploaderLabel {
+/* #uploaderLabel {
     border: 1px solid black;
     padding: 5px 10px 5px 10px;
 }
 #uploaderLabel:hover {
     background-color: #8080803b;
-}
+} */
 
 #error {
     color: red;
@@ -30,7 +30,7 @@ table {
 }
 
 input[type="file"] {
-  display: none;
+  display: block;
 }
 
 .custom-file-upload {

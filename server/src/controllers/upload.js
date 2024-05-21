@@ -24,13 +24,13 @@ module.exports = (app, { verifyFileType, fileSizeLimiter }) => {
         }
     });
 
-    app.post('/api/v2/multi-upload', 
+    app.post('/api/v2/upload', 
         verifyFileType,
         fileSizeLimiter,
         (req, res) => {
-            logger.info(`/v2/multi-upload - Controller - API called`);
+            logger.info(`/v2/upload - Controller - API called`);
             multiUpload(req);
-            logger.info(`/v2/multi-upload - Controller - API response with a Success`);
+            logger.info(`/v2/upload - Controller - API response with a Success`);
             return res.status(200).json({
                 status: 200,
                 message: "Files successfully uploaded"

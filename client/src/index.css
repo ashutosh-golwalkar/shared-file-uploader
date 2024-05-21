@@ -69,3 +69,7 @@ cursor: pointer;
 .highlightNew {
   background-color: rgb(146 222 247);
 }
+
+.fileContentDisplay {
+  overflow: auto;
+}

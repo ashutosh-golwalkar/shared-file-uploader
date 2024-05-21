@@ -1,45 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from "react"
+import FileContent from "./FileContent"
 
-function FileList() {
-    
-    const [filesData, setFilesData] = useState([{}]);
-    useEffect(() => fetchData(), []);
-    const fetchData = () => {
+const FileList =({ filesData }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
+    console.log(filesData)
 
-      axios.get("http://localhost:4000/api/v1/files")
-        .then(response => setFilesData(response.data))
-        .catch(error => console.log(error));
-    }
-
-    const renderTableData = (data) => {
-      console.log("RENDER FUNCTION")
-      console.log(data)
-      return (
-        <tr>
-          <td>{ data.name }</td>
-        </tr>
-      )
-    }
-    const variable = "ASD"
+  const handleClick = (fileData) => {
+    console.log(fileData);
+    setSelectedFile(fileData.name);
+  }
   return (
-    <div className='fileList' id='fileList'>
-        <h3>Existing File List</h3>
-        {
-            (filesData.status === 200 ?
-                <table className='table'>
-                    <tbody>
-                        { filesData.data.map((file, index) => {
-                          return (<tr key={index}>
-                            <td className='tableContent'>{file.name}</td>
-                          </tr>)
-                        }) }
-                    </tbody>
-                </table>   
-                : <p>{filesData.message}</p>
-            )
-        }
-    </div>
+    <>
+      <div className='fileList' id='fileList'>
+          <h3>Existing File List</h3>
+          {
+              (filesData.status === 200 ?
+                  (filesData.data.length ?
+                    <table className='table'>
+                        <tbody>
+                            { filesData.data.map((file, index) => {
+                              return (<tr key={index}>
+                                <td className='tableContent' onClick={() => handleClick(file)}>{file.name}</td>
+                              </tr>)
+                            }) }
+                        </tbody>
+                    </table>
+                    : <p>There's no file to display</p>)
+                  : <p>{filesData.message}</p>
+              )
+          }
+      </div>
+      <FileContent fileName={selectedFile}/>
+    </>
   )
 }
 
